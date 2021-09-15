@@ -1,4 +1,4 @@
-package com.upchina.zf;
+package com.upchina.zf.ptp;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -8,6 +8,9 @@ import java.io.IOException;
 /**
  * Created by anjunli on  2021/9/7
  * PTP——点对点
+ * 1：点对点消息传递域的特点如下
+ * （1）每个消息只能有一个消费者
+ * （2）消息的生产者和消费者没有时间上的相关性。无论消费者在生产者发送消息的时候是否处于运行状态，它都可以提取消息。
  **/
 public class MyConsumer {
     ConnectionFactory connectionFactory;
@@ -19,17 +22,19 @@ public class MyConsumer {
 
     public void receiveFromMQ(){
         try {
-            connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://172.16.11.161:61616");
+            connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://localhost:61616");
             connection = connectionFactory.createConnection();
             connection.start();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
             destination = session.createQueue("q_test");
             messageConsumer = session.createConsumer(destination);
 
-/*            message = messageConsumer.receive();
-            String msg = ((TextMessage) message).getText();
-            System.out.println("receive-> " + msg);*/
-
+            //一次只能消费一条数据
+/*            while(true) {
+                message = messageConsumer.receive();
+                String msg = ((TextMessage) message).getText();
+                System.out.println("receive-> " + msg);
+            }*/
             //加载监听器
             messageConsumer.setMessageListener(new MyListener());
             //监听器需要持续加载，使用输入流阻塞当前线程结束

@@ -1,4 +1,4 @@
-package com.upchina.zf;
+package com.upchina.zf.ptp;
 
 import javax.jms.JMSException;
 import javax.jms.Message;

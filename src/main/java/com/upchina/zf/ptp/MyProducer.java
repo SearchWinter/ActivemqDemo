@@ -1,4 +1,4 @@
-package com.upchina.zf;
+package com.upchina.zf.ptp;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -31,7 +31,7 @@ public class MyProducer {
     public void sendToActiveMQ()  {
         try {
             //用户名 密码 访问ActiveMQ服务的路径
-            connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://172.16.11.161:61616");
+            connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://localhost:61616");
             //创建目的地，也就是队列名
             connection = connectionFactory.createConnection();
             //启动连接
@@ -47,9 +47,9 @@ public class MyProducer {
 //            message = session.createTextMessage("ActiveMQ test");
             //发送消息
 //            mProducer.send(message);
-            for (int i = 0; i <100 ; i++) {
+            for (int i = 0; i <10 ; i++) {
                 mProducer.send(session.createTextMessage("ActiveMQ test"+i));
-                Thread.sleep(2000L);
+                Thread.sleep(100L);
             }
 
         } catch (JMSException | InterruptedException e) {
