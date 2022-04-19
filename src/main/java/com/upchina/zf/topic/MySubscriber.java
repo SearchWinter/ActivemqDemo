@@ -13,6 +13,7 @@ import java.io.IOException;
  *    1、给连接设置唯一的ID,创建DurableTopicSubscriber来订阅
  *    2、设置完成后再start() Connection
  *    3、消费者要先运行一次，相当于向服务注册这个消费者，然后运行生产者。这个时候无论消费者是否在线，都会接收到，下次连接的时候，会把没有收过的消息都接收下来。
+ *    4、当队列中有未被消费的消息时，即使重新启动ActiveMQ服务器后，发现消息仍然在队列中，消费者任可继续消费
  *
  *  注意：对于非持久性的Topic消息，则需要接收者保持运行状态，不然消息发送者发出的消息会接收不到。
  **/
@@ -34,7 +35,7 @@ public class MySubscriber implements Runnable {
     @Override
     public void run() {
         try {
-            TopicConnectionFactory connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://172.16.11.161:61616");
+            TopicConnectionFactory connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://192.168.64.131:61616");
             topicConnection = connectionFactory.createTopicConnection();
             topicConnection.setClientID("Client_"+ID);
             topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);

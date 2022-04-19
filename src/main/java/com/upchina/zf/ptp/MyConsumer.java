@@ -7,6 +7,7 @@ import java.io.IOException;
 
 /**
  * Created by anjunli on  2021/9/7
+ * https://zhuanlan.zhihu.com/p/83264194
  * PTP——点对点
  * 1：点对点消息传递域的特点如下
  * （1）每个消息只能有一个消费者
@@ -22,7 +23,7 @@ public class MyConsumer {
 
     public void receiveFromMQ(){
         try {
-            connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://localhost:61616");
+            connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "nio://192.168.64.131:61616");
             connection = connectionFactory.createConnection();
             connection.start();
             session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);

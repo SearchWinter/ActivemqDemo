@@ -15,7 +15,7 @@ Created by anjunli on  2021/9/7
  3）Session.DUPS_OK_ACKNOWLEDGE - 有副本的客户端确认消息机制
  **/
 public class MyProducer {
-    //定义连接工厂
+    //定义连接工厂：用于创建链接的工厂类型
     ConnectionFactory connectionFactory;
     //定义连接
     Connection connection;
@@ -30,9 +30,9 @@ public class MyProducer {
 
     public void sendToActiveMQ()  {
         try {
-            //用户名 密码 访问ActiveMQ服务的路径
-            connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://localhost:61616");
-            //创建目的地，也就是队列名
+            //用户名 密码 访问ActiveMQ服务的路径 结构为: 协议名://主机地址:端口号
+            connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "nio://192.168.64.131:61616");
+            //创建连接
             connection = connectionFactory.createConnection();
             //启动连接
             connection.start();

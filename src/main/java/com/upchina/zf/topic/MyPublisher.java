@@ -14,7 +14,7 @@ public class MyPublisher {
 
     public void publishTopic(){
         try {
-            TopicConnectionFactory connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://172.16.11.161:61616");
+            TopicConnectionFactory connectionFactory = new ActiveMQConnectionFactory("admin", "admin", "tcp://192.168.64.131:61616");
             topicConnection = connectionFactory.createTopicConnection();
             topicConnection.start();
             topicSession = topicConnection.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -22,8 +22,11 @@ public class MyPublisher {
             Topic topic = topicSession.createTopic("topic_test");
             topicPublisher = topicSession.createPublisher(topic);
 
-            TextMessage message = topicSession.createTextMessage("topic message test");
-            topicPublisher.send(message);
+            long start = System.currentTimeMillis();
+            for (int i = 0; i <1000 ; i++) {
+                topicPublisher.send(topicSession.createTextMessage("topic message test"+i));
+            }
+            System.out.println(System.currentTimeMillis()-start);
         }catch(JMSException e){
             e.printStackTrace();
         }finally{
